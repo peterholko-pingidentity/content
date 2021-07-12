@@ -39,20 +39,7 @@ def main():
         # string_dir_names will be 'Packs/pack_a Packs/pack_b Packs/pack_c'
         string_dir_names = f'Packs/{" Packs/".join(packs_dir_names)}'
 
-        output = ''
-
-        try:
-            with NamedTemporaryFile() as output_file:
-                Popen(f'git fetch --dry-run https://{token}@github.com/{repo}/content.git :{repo}/{branch}'.split(),
-                stdout=output_file, stderr=output_file)
-                output_file.seek(0)
-                output = output_file.read()
-        except SystemExit:
-            pass
-
-        if output:
-            print(str(output).replace(token, '<TOKEN>'))
-
+        Popen(f'git fetch https://github.com/{repo}/content.git :{repo}/{branch}'.split(), stdout=PIPE, stderr=PIPE)
         Popen('git branch --list'.split(), stdout=PIPE, stderr=PIPE)
         command = f'git checkout {repo}/{branch} -- {string_dir_names}'
         print(f'Running command {command}')
