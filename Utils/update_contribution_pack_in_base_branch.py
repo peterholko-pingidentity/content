@@ -3,7 +3,7 @@ import argparse
 import os
 import shutil
 import sys
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from typing import List
 from tempfile import NamedTemporaryFile
 
@@ -53,7 +53,7 @@ def main():
         if output:
             print(str(output).replace(token, '<TOKEN>'))
 
-        run_command('git branch --list', is_silenced=False)
+        Popen('git branch --list'.split(), stdout=PIPE, stderr=PIPE)
         command = f'git checkout {repo}/{branch} -- {string_dir_names}'
         print(f'Running command {command}')
         run_command(command)
