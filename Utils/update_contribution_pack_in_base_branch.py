@@ -50,7 +50,10 @@ def main():
         except SystemExit:
             pass
 
-        print(str(output).replace(token, '<TOKEN>'))
+        if output:
+            print(str(output).replace(token, '<TOKEN>'))
+
+        run_command('git branch --list')
         command = f'git checkout {repo}/{branch} -- {string_dir_names}'
         print(f'Running command {command}')
         run_command(command)
