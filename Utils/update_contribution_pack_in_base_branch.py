@@ -43,7 +43,7 @@ def main():
 
         try:
             with NamedTemporaryFile() as output_file:
-                Popen(f'git fetch https://{token}@github.com/{repo}/content.git :{repo}/{branch}'.split(),
+                Popen(f'git fetch --dry-run https://{token}@github.com/{repo}/content.git :{repo}/{branch}'.split(),
                 stdout=output_file, stderr=output_file)
                 output_file.seek(0)
                 output = output_file.read()
