@@ -5,6 +5,7 @@ import shutil
 import sys
 from subprocess import Popen
 from typing import List
+from tempfile import NamedTemporaryFile
 
 import requests
 from demisto_sdk.commands.common.tools import run_command, print_error, print_success
@@ -38,11 +39,18 @@ def main():
         # string_dir_names will be 'Packs/pack_a Packs/pack_b Packs/pack_c'
         string_dir_names = f'Packs/{" Packs/".join(packs_dir_names)}'
 
+        output = ''
+
         try:
-            with open('/dev/null', 'w') as dev_null:
-                Popen(f'git fetch https://{token}@github.com/{repo}/content.git :{repo}/{branch}'.split(), stdout=dev_null)
+            with NamedTemporaryFile() as output_file:
+                Popen(f'git fetch https://{token}@github.com/{repo}/content.git :{repo}/{branch}'.split(),
+                stdout=output_file, stderr=output_file)
+                output_file.seek(0)
+                output = output_file.read()
         except SystemExit:
             pass
+
+        print(str(output).replace(token, '<TOKEN>'))
         command = f'git checkout {repo}/{branch} -- {string_dir_names}'
         print(f'Running command {command}')
         run_command(command)
