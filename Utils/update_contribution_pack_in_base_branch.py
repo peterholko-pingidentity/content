@@ -2,7 +2,7 @@
 import argparse
 import os
 from typing import Iterable, List
-from urllib import urljoin
+from urllib.parse import urljoin
 
 import requests
 from demisto_sdk.commands.common.tools import print_success
