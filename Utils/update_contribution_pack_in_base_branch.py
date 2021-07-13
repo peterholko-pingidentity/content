@@ -70,7 +70,7 @@ def get_files_from_github(username: str, branch: str, pr_number: str) -> List[st
         if not os.path.isdir(abs_dir):
             os.makedirs(abs_dir)
         with open(os.path.join(content_path, file_path), 'wb') as changed_file:
-            with requests.get(urljoin(base_url, file_path)) as file_content:
+            with requests.get(urljoin(base_url, file_path), stream=True) as file_content:
                 for data in file_content.iter_content(chunk_size=chunk_size):
                     changed_file.write(data)
         
