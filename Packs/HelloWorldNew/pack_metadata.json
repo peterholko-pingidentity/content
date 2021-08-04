@@ -15,6 +15,10 @@
     "useCases": [],
     "keywords": [],
     "dependencies": {
+		"Viper": {
+			"mandatory": true,
+			"display_name": "Viper"
+		},
         "CommonScripts": {
             "mandatory": true,
             "display_name": "Common Scripts"
